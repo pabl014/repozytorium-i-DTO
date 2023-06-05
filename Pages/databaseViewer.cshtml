@@ -1,0 +1,117 @@
+﻿@page
+@model uwierzytelnianieClaimsIdentity.Pages.databaseViewerModel
+
+@{
+    ViewData["Title"] = "Search History";
+}
+
+<h2>Students</h2>
+
+<p>
+    <a asp-page="Create">Create New</a>
+</p>
+
+<form asp-page="./Index" method="get">
+    <div class="form-actions no-color">
+        <p>
+            Find by name:
+            <input type="text" name="SearchString" value="@Model.CurrentFilter" />
+            <input type="submit" value="Search" class="btn btn-primary" /> |
+            <a asp-page="./Index">Back to full List</a>
+        </p>
+    </div>
+</form>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                <a asp-page="./Index" asp-route-sortOrder="@Model.NameSort"
+                   asp-route-currentFilter="@Model.CurrentFilter">
+                    @Html.DisplayNameFor(model => model.search[0].name)
+                </a>
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.search[0].year)
+            </th>
+            <th>
+                <a asp-page="./Index" asp-route-sortOrder="@Model.DateSort"
+                   asp-route-currentFilter="@Model.CurrentFilter">
+                    @Html.DisplayNameFor(model => model.search[0].date)
+                </a>
+            </th>
+            <th>
+                <a asp-page="./Index" asp-route-sortOrder="@Model.DateSort"
+                   asp-route-currentFilter="@Model.CurrentFilter">
+                    @Html.DisplayNameFor(model => model.search[0].userNumber)
+                </a>
+            </th>
+            <th>
+                <a asp-page="./Index" asp-route-sortOrder="@Model.DateSort"
+                   asp-route-currentFilter="@Model.CurrentFilter">
+                    @Html.DisplayNameFor(model => model.search[0].userLogin)
+                </a>
+            </th>
+            <th>
+
+                <div>czy rok jest przestepny</div>
+               
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.search)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.year)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.date)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.userNumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.userLogin)
+                </td>
+                <td>
+                    @Html.Raw(item.shortSentence())
+                </td>
+                @if (item.userNumber == Model.itemToSearch.userNumber && item.userNumber != null) // musi byc zalogowany ktokolwiek && id obecnego uzytkownika == id uzytkownika danego wpisu
+                {
+                    <form method="post">
+                    <td>
+                        <input name="searchID" value="@item.id" type="hidden" />
+                        <button type="submit">Delete</button>
+                    </td>
+                    </form>
+                }
+            </tr>
+        }
+    </tbody>
+</table>
+
+@{
+    var prevDisabled = !Model.search.HasPreviousPage ? "disabled" : "";
+    var nextDisabled = !Model.search.HasNextPage ? "disabled" : "";
+}
+
+<a asp-page="./databaseViewer"
+   asp-route-sortOrder="@Model.CurrentSort"
+   asp-route-pageIndex="@(Model.search.PageIndex - 1)"
+   asp-route-currentFilter="@Model.CurrentFilter"
+   class="btn btn-primary @prevDisabled">
+    Previous
+</a>
+<a asp-page="./databaseViewer"
+   asp-route-sortOrder="@Model.CurrentSort"
+   asp-route-pageIndex="@(Model.search.PageIndex + 1)"
+   asp-route-currentFilter="@Model.CurrentFilter"
+   class="btn btn-primary @nextDisabled">
+    Next
+</a>
