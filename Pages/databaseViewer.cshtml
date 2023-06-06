@@ -43,13 +43,13 @@
             <th>
                 <a asp-page="./Index" asp-route-sortOrder="@Model.DateSort"
                    asp-route-currentFilter="@Model.CurrentFilter">
-                    @Html.DisplayNameFor(model => model.search[0].userNumber)
+                    @Html.DisplayNameFor(model => model.search[0].usernumber)
                 </a>
             </th>
             <th>
                 <a asp-page="./Index" asp-route-sortOrder="@Model.DateSort"
                    asp-route-currentFilter="@Model.CurrentFilter">
-                    @Html.DisplayNameFor(model => model.search[0].userLogin)
+                    @Html.DisplayNameFor(model => model.search[0].userlogin)
                 </a>
             </th>
             <th>
@@ -74,15 +74,15 @@
                     @Html.DisplayFor(modelItem => item.date)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.userNumber)
+                    @Html.DisplayFor(modelItem => item.usernumber)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.userLogin)
+                    @Html.DisplayFor(modelItem => item.userlogin)
                 </td>
                 <td>
                     @Html.Raw(item.shortSentence())
                 </td>
-                @if (item.userNumber == Model.itemToSearch.userNumber && item.userNumber != null) // musi byc zalogowany ktokolwiek && id obecnego uzytkownika == id uzytkownika danego wpisu
+                @if (item.usernumber == Model.itemToSearch.userNumber && item.usernumber != null) // musi byc zalogowany ktokolwiek && id obecnego uzytkownika == id uzytkownika danego wpisu
                 {
                     <form method="post">
                     <td>
